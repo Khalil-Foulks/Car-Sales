@@ -1,5 +1,5 @@
 
-import { ADD_FEATURE, } from "../actions/featureActions"
+import { ADD_FEATURE, REMOVE_FEATURE, } from "../actions/featureActions"
 
 export const initialState = {
     additionalPrice: 0,
@@ -24,13 +24,24 @@ export const initialState = {
             if(state.car.features.find(item => item.id === action.payload.id)){
                 return state
             }else{
-                return{
+                return {
                     ...state,
                     car: {
                         ...state.car,
                         price: state.car.price + action.payload.price,
                         features: [...state.car.features, action.payload ]
                     }
+                }
+            }
+        case REMOVE_FEATURE:
+            return {
+                ...state,
+                car: {
+                    ...state.car,
+                    price: state.car.price - action.payload.price,
+                    features: state.car.features.filter(item => {
+                        return item.id !== action.payload.id
+                    })
                 }
             }
         default:
